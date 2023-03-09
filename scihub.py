@@ -10,14 +10,30 @@ urllib3.disable_warnings()
 class SciHub:
     """
     SciHub class to download PDF files
+
+    Parameters
+    ----------
+    doi_list : list
+        List of DOIs to download
+    path : str
+        Path to save the PDF files
+
+    Methods
+    -------
+    download(doi, path= None)
+        Download the PDF file
+
+    Examples
+    --------
+    >>> from scihub import SciHub
+    >>> doi_list = ["10.1016/j.biomaterials.2015.01.027", "10.1007/978-90-481-9145-1_6"]
+    >>> SciHub(doi_list)
     """
 
     def __init__(self, doi_list, path= None): 
         self.req = requests.Session()
         self.req.headers = HEADERS
         self.available_scihub_urls = self._get_available_scihub_urls()
-        if not path:
-            path = self._parse_path(doi_list[0])
 
         for doi in doi_list:
             print("Processing DOI: {}".format(doi))
@@ -97,7 +113,7 @@ class SciHub:
             print("Paper not found in Sci-Hub: {}".format(doi))
         
         else:
-            path = self._parse_path(doi)
+            path = self._parse_path(doi, path)
             self._save_pdf(path, resp.content)
             print("Downloaded: {}".format(doi))
             
