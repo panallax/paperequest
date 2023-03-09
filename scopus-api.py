@@ -12,7 +12,7 @@ resp = requests.get(query,
 dois = []
 for i in resp.json()["search-results"]["entry"]:
     try:
-        dois.append(iþ["prism:doi"])
+        dois.append(i["prism:doi"])
     except:
         continue
 
